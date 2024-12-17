@@ -10,7 +10,7 @@
             class="form-check-input" 
             type="checkbox" 
             :checked="todo.completed"
-            @change="toggleTodo(index)"
+            @change="toggleTodo(index, $event)"
             @click.stop
             >
             <!-- v-model="todo.completed" -->
@@ -45,8 +45,8 @@ export default {
   emits: ['toggle-todo', 'delete-todo'],
   setup(props, {emit}) {
     const router = useRouter();
-    const toggleTodo = (index) => {
-      emit('toggle-todo', index);
+    const toggleTodo = (index, event) => {
+      emit('toggle-todo', index, event.target.checked);
     };
 
     const deleteTodo = (index) => {

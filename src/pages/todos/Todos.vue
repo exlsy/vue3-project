@@ -1,7 +1,7 @@
 <template>
   <!-- <div>Todos -------- 페이지</div> -->
   <!-- <router-view/> -->
-  <div class="container">
+  <div>
     <h2>To-Do 리스트</h2>
 
     <input
@@ -116,15 +116,17 @@ export default {
       }
     };
 
-    const toggleTodo = async (index) => {
-      console.log(index);
+    const toggleTodo = async (index, checked) => {
+      console.log(index, checked);
       error.value = '';
       const id = todos.value[index].id;
       try {
         await axios.patch('http://localhost:3000/todos/'+id, {
-          completed: !todos.value[index].completed
+          // completed: !todos.value[index].completed
+          completed: checked
         });
-        todos.value[index].completed = !todos.value[index].completed;
+        // todos.value[index].completed = !todos.value[index].completed;
+        todos.value[index].completed = checked;
       } catch(err) {
         console.log(err);
         error.value = 'Delete Something went wrong!';
