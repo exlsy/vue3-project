@@ -46,11 +46,15 @@
         </ul>
       </nav>
     </div>
-
-
     <!-- {{ numberOfPages }} -->
-    
   </div>
+
+  <Toast 
+    v-if="showToast" 
+    :message="toastMessage"
+    :type="toastAlertType"
+  />
+
 </template>
 
 <script>
@@ -58,11 +62,14 @@ import { ref, computed, watch } from 'vue';
 import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from 'axios';
+import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
 
 export default {
   components: {
     TodoSimpleForm,
     TodoList,
+    Toast,
   },
   setup() {
 
@@ -72,6 +79,8 @@ export default {
     const limit = 5;
     const currentPage = ref(1);
     const searchText = ref('');
+
+    const { showToast, toastMessage, toastAlertType, triggerToast, } = useToast();
 
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/limit);
@@ -94,6 +103,7 @@ export default {
       } catch(err) {
         console.log(err);
         error.value = 'Get Something went wrong!';
+        triggerToast('Get Something went wrong!', 'danger');
       }
     };
 
@@ -113,6 +123,7 @@ export default {
       } catch(err) {
         console.log(err);
         error.value = 'Add Something went wrong!';
+        triggerToast('Add Something went wrong!', 'danger');
       }
     };
 
@@ -129,7 +140,8 @@ export default {
         todos.value[index].completed = checked;
       } catch(err) {
         console.log(err);
-        error.value = 'Delete Something went wrong!';
+        error.value = 'Toggle Something went wrong!';
+        triggerToast('Toggle Something went wrong!', 'danger');
       }
     };
 
@@ -144,6 +156,7 @@ export default {
       } catch(err) {
         console.log(err);
         error.value = 'Delete Something went wrong!';
+        triggerToast('Delete Something went wrong!', 'danger');
       }
 
     };
@@ -186,6 +199,12 @@ export default {
       numberOfTodos,
       currentPage,
       numberOfPages,
+      showToast,
+      toastMessage,
+      toastAlertType,
+      // toastTimeout,
+      triggerToast,
+
     };
   }
 }
