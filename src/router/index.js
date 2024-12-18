@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Home from '../pages/Home.vue';
 import Todos from '../pages/todos/Todos.vue';
 import Todo from '../pages/todos/_id.vue';
+import TodoCreate from '../pages/todos/create/TodoCreate.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -21,6 +22,11 @@ const router = createRouter({
       name: 'Todo',
       component: Todo,
     },
+    {
+      path: '/todos/create',
+      name: 'TodoCreate',
+      component: TodoCreate,
+    }
   ],
 });
 

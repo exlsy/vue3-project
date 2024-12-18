@@ -2,7 +2,15 @@
   <!-- <div>Todos -------- 페이지</div> -->
   <!-- <router-view/> -->
   <div>
-    <h2>To-Do 리스트</h2>
+    <div class="d-flex justify-content-between mb-2">
+      <h2>To-Do 리스트</h2>
+      <button 
+        class="btn btn-primary"
+        @click="moveToCreatePage"
+      >
+        Todo 생성하기
+      </button>
+    </div>
 
     <input
       class="form-control" 
@@ -14,8 +22,8 @@
 
     <hr>
 
-    <TodoSimpleForm @add-todo="addTodo"/> 
-    <div style="color:red"> {{ error }}</div>
+    <!-- <TodoSimpleForm @add-todo="addTodo"/> 
+    <div style="color:red"> {{ error }}</div> -->
 
     <div v-if="todos.length==0">
       <!-- 추가된 To-Do가 없습니다. -->
@@ -59,20 +67,21 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
+// import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from 'axios';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    TodoSimpleForm,
+    // TodoSimpleForm,
     TodoList,
     Toast,
   },
   setup() {
-
+    const router = useRouter();
     const todos = ref([]);
     const error = ref('');
     const numberOfTodos = ref(0);
@@ -161,6 +170,12 @@ export default {
 
     };
 
+    const moveToCreatePage = () => {
+      router.push({
+        name: 'TodoCreate',
+      });
+    };
+
     let timeout = null;
     const searchTodo = () => {
       clearTimeout(timeout);
@@ -204,7 +219,7 @@ export default {
       toastAlertType,
       // toastTimeout,
       triggerToast,
-
+      moveToCreatePage,
     };
   }
 }

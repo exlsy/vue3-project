@@ -31,9 +31,21 @@
       "id": 11
     },
     {
-      "subject": "vutify3 공부하기",
+      "id": 12,
+      "subject": "vutify3 공부하기11",
+      "completed": false
+    },
+    {
+      "subject": "취침하기",
+      "completed": true,
+      "body": "하루 8시간 잠자기!!",
+      "id": 13
+    },
+    {
+      "subject": "요리하기",
       "completed": false,
-      "id": 12
+      "body": "라면 끓이기",
+      "id": 14
     }
   ]
 }
