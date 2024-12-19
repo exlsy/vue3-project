@@ -22,9 +22,6 @@
 
     <hr>
 
-    <!-- <TodoSimpleForm @add-todo="addTodo"/> 
-    <div style="color:red"> {{ error }}</div> -->
-
     <div v-if="todos.length==0">
       <!-- 추가된 To-Do가 없습니다. -->
        표시할 데이터가 없습니다.
@@ -36,7 +33,7 @@
       @delete-todo="deleteTodo" />
 
     <hr>
-    
+  
 
     <div class="row h-100 justify-content-center align-items-center">
       <nav aria-label="Page navigation example">
@@ -67,7 +64,6 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-// import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from 'axios';
 import Toast from '@/components/Toast.vue';
@@ -76,7 +72,6 @@ import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    // TodoSimpleForm,
     TodoList,
     Toast,
   },
@@ -154,9 +149,9 @@ export default {
       }
     };
 
-    const deleteTodo = async (index) => {
+    const deleteTodo = async (id) => {
       error.value = '';
-      const id = todos.value[index].id;
+      // const id = todos.value[index].id;
       try {
         await axios.delete('http://localhost:3000/todos/'+id);
         // console.log(res);

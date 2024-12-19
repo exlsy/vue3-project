@@ -7,7 +7,7 @@
   >
     <div class="row">
       <div class="col-6">
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label>Subject</label>
           <input 
             v-model="todo.subject" 
@@ -18,8 +18,12 @@
             v-if="subjectError" 
             class="text-red">
             {{ subjectError }}
-          </div>
-        </div>
+          </div> -->
+          <Input 
+            label="Subject"
+            v-model:subject="todo.subject"
+            :error="subjectError" 
+          />
       </div>
       <div v-if="editing" class="col-6">
         <div class="form-group">
@@ -60,25 +64,31 @@
       취소
     </button>
   </form>
-  <Toast 
-    v-if="showToast" 
-    :message="toastMessage"
-    :type="toastAlertType"
-  />  
+
+  <transition name="toast">
+    <Toast 
+      v-if="showToast" 
+      :message="toastMessage"
+      :type="toastAlertType"
+    />
+  </transition>
+
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onUpdated } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
+import Input from '@/components/Input.vue';
 
 export default {
   components: {
     Toast,
-  },
+    Input,
+  }, 
   props: {
     editing: Boolean,
     default: false,
@@ -97,7 +107,16 @@ export default {
     const loading = ref(false);
     const todoId = route.params.id;
 
+    onUpdated(() => {
+      console.log('onUpdated todo', todo.value);
+    });
+
     const { showToast, toastMessage, toastAlertType, triggerToast, } = useToast();
+
+    // const updateTodoSubject = (newSubject) => {
+    //   console.log(newSubject);
+    //   todo.value.subject = newSubject;
+    // };
 
     const getTodo = async () => {
       loading.value = true;
@@ -185,14 +204,43 @@ export default {
       toastAlertType,
       triggerToast,
       subjectError,
+      // updateTodoSubject,
     };
 
   }
 }
 </script>
 
-<style scoped>
+<style>
   .text-red {
     color: red
   }
+
+  /* enter */
+  .toast-enter-active {
+    transition: all .5s ease;
+  }
+
+  .toast-enter-from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  .toast-enter-to{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  /* leave */
+  .toast-leave-from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  .toast-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  .toast-leave-active {
+    transition: all .5s ease;
+  }
+
 </style>

@@ -1,0 +1,61 @@
+<template>
+  <div class="modal-wrapper">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" >
+            <!-- - Todo 삭제하기 -->
+            <slot name='title'></slot>
+          </h5>
+          <button type="button" class="close" >
+            <span @click="onClose">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span style="font-weight:bold;"> {{ subject }} </span>
+          <slot name="body"></slot>
+          <!-- - Todo를 삭제하시겠습니까? -->
+        </div>
+        <div class="modal-footer">
+          <slot name="footer"></slot>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    subject: {
+      type: String,
+      required: true,
+    }
+  },
+  setup(props, { emit }) {
+    const onClose = () => {
+      emit('close');
+    };
+    // const onDelete = () => {
+    //   emit('delete');
+    // };
+
+    return {
+      onClose,
+      // onDelete,
+    }
+  }
+}
+</script>
+  
+<style scoped>
+  .modal-wrapper {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+</style>
